@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../manager_cubit/new_app_cubit/news_cubit.dart';
@@ -24,10 +25,19 @@ class CategoryItem extends StatelessWidget {
             children: [
               CircleAvatar(
                 radius: 60,
-                backgroundImage: NetworkImage(category.image),
-                backgroundColor: Colors.red,
-                foregroundColor: Colors.white,
+               // backgroundColor: Colors.red,
+                child: ClipOval(
+                  child: CachedNetworkImage(
+                    imageUrl: category.image,
+                    width: 120,
+                    height: 120,
+                    fit: BoxFit.cover,
+                    placeholder: (context, url) => CircularProgressIndicator(),
+                    errorWidget: (context, url, error) => Icon(Icons.error, color: Colors.white),
+                  ),
+                ),
               ),
+
               SizedBox(height: 8),
               Text(category.name, style: Styles.style30),
             ],
